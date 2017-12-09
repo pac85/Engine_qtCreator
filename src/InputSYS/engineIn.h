@@ -56,7 +56,7 @@ class engineIn
         map<string, void (*)(float, float)> control_map;    //maps a name to a function
         map<int, control> key_control_map;                  //maps a key to a control name
 
-        void internal_key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
+        static void internal_key_callback(engineIn* caller_obj, GLFWwindow *window, int key, int scancode, int action, int mods);
 };
 
 #endif // ENGINEIO_H

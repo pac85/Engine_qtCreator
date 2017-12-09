@@ -29,7 +29,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 
-#include <iostream>
+/*#include <iostream>
 #include <vector>
 #include <stdexcept>
 #include <string>
@@ -41,7 +41,8 @@
 #include <stdexcept>
 #include <functional>
 #include <set>
-#include <cstring>
+#include <cstring>*/
+#include <bits/stdc++.h>
 
 using namespace std;
 //using namespace glm;

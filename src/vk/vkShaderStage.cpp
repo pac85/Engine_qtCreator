@@ -1,4 +1,5 @@
-/**************************************************************************/
+/**************************************************************************
+
 
   Copyright (C) 2017 Antonino Maniscalco (alias pac85)
                                                                        
@@ -18,9 +19,10 @@
   along with Engine.  If not, see http://www.gnu.org/licenses/          
                                                                   
                                                                       
-/**************************************************************************/#include "vkShaderStage.h"
+**************************************************************************/
+#include "vkShaderStage.h"
 
-vkShaderStage::vkShaderStage(vkShaderModule shader_module, VkShaderStageFlagBits stage, string mf_name = "main")
+vkShaderStage::vkShaderStage(vkShaderModule shader_module, VkShaderStageFlagBits stage, string mf_name)
 {
     VkPipelineShaderStageCreateInfo vertex_shader_index = {};
 

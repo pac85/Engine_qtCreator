@@ -25,10 +25,10 @@
 #define MODEL_H
 
 #include "../common.h"
-#include "vk/vkUtils.h"
-#include "vk/vkDeleter.hpp"
-#include "vk/vkDevice.h"
-#include "vk/vkPhysicalDevice.h"
+#include "../vk/vkUtils.h"
+#include "../vk/vkDeleter.hpp"
+#include "../vk/vkDevice.h"
+#include "../vk/vkPhysicalDevice.h"
 #include <assimp/Importer.hpp>      // C++ importer interface
 #include <assimp/scene.h>           // Output data structure
 #include <assimp/postprocess.h>     // Post processing flags

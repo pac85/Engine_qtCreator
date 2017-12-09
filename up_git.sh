@@ -1,3 +1,3 @@
 git add .
 git commit
-git push https://github.com/pac85/Engine
+git push https://github.com/pac85/Engine_qtCreator

@@ -71,11 +71,11 @@ void Init(string app_name)
     engine_settings::load_settings("./cfg/basic_settings.cfg");
     settings base_settings("./cfg/basic_settings.cfg");
 
-    /*logger test_log("test.txt");
+    logger test_log("test.txt");
 
     test_log << msg("test msg");
     test_log << warn("test warn");
-    test_log << err("test err");*/
+    test_log << err("test err");
 
 
     //initializes glfw

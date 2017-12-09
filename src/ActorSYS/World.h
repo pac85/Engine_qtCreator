@@ -130,17 +130,17 @@ class world
         inline attachment create_attachment(BaseActor* _parent_actor, BaseActor* _attached_actor)
         {
             if(actor_index_map.find(_parent_actor) == actor_index_map.end() || actor_index_map.find(_attached_actor) == actor_index_map.end())
-                return ;
+                throw runtime_error("one of the actors was not found");
 
             return attachment(actor_index_map[_parent_actor], actor_index_map[_attached_actor]);
         }
 
-        void aa_attach(attachment _attachment); //adds an BaseActor-BaseActor attachment
+        void aa_attach(attachment _attachment);     //adds an BaseActor-BaseActor attachment
         void aa_deteach(attachment _attachment);    //removes the attachment
 
         void load_level(string file_name);          //Loads a level from an xwl file
 
-        void UpdateWorld(float delta);                           //Does all the update stuff
+        void UpdateWorld(float delta);              //Does all the update stuff
 
 
     protected:

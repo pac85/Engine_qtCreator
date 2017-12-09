@@ -18,7 +18,8 @@
   along with Engine.  If not, see http://www.gnu.org/licenses/
 
 */
-/**************************************************************************/#include "World.h"
+/**************************************************************************/
+#include "World.h"
 #include <stack>
 
 world::world()
@@ -327,3 +328,4 @@ void world::UpdateWorld(float delta)
     update_attachments(delta);
     tickAll(delta);
 }
+

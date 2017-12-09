@@ -56,7 +56,7 @@ class Ptr
         }
 
         //Assignement operators - assigning a plain pointer
-        inline operator =(T *o)
+        inline T& operator =(T *o)
         {
             if(obj)obj->Release();
             obj=o;
@@ -65,7 +65,7 @@ class Ptr
         }
 
         //Assigning another smart pointer
-        inline operator =(const Ptr<T> &p)
+        inline T& operator =(const Ptr<T> &p)
         {
             if(obj)obj->Release();
             obj=p.obj;
@@ -74,7 +74,7 @@ class Ptr
         }
 
         //Creates an instance from instance name
-        operator =(const string s){
+        T& operator =(const string s){
             if(obj)obj->Release();
             obj= BaseFactory::createInstance(s);
             if(obj)obj->AddRef();

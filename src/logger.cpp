@@ -21,89 +21,144 @@
 /**************************************************************************/
 #include "logger.h"
 
+//changes consoles's text color
+namespace Color {
+    enum Code {
+        FG_RED      = 31,
+        FG_YELLOW   = 33,
+        FG_GREEN    = 32,
+        FG_BLUE     = 34,
+        FG_DEFAULT  = 39,
+        BG_RED      = 41,
+        BG_YELLOW   = 43,
+        BG_GREEN    = 42,
+        BG_BLUE     = 44,
+        BG_DEFAULT  = 49
+    };
+    class Modifier {
+        Code code;
+    public:
+        Modifier(Code pCode) : code(pCode) {}
+        friend std::ostream& operator<<(std::ostream& os, const Modifier& mod) {
+            return os << "\033[" << mod.code << "m";
+        }
+    };
+
+    Modifier red(FG_RED);
+    Modifier green(FG_GREEN);
+    Modifier yellow(FG_YELLOW);
+    Modifier def(FG_DEFAULT);
+}
+
+void Logger_stdout::operator <<(const log_data& data)
+{
+    switch(data.type)
+    {
+        case normal:
+            cout << "[  "   << Color::green << "OK" << Color::def << "  ]" << data.msg << endl;
+            break;
+        case warning:
+            cout << "[ " << Color::yellow << "WARN" << Color::def << " ]" << data.msg << endl;
+            break;
+        case error:
+            cout << "[ " << Color::red << "ERROR" << Color::def << "]" << data.msg << endl;
+            break;
+    }
+}
+
+void Logger_stdout::flush()
+{
+    cout.flush();
+}
+
+void Logger_file::operator <<(const log_data& data)
+{
+    switch(data.type)
+    {
+        case normal:
+            ofile << "[  OK  ]" << data.msg << endl;
+            break;
+        case warning:
+            ofile << "[ WARN ]" << data.msg << endl;
+            break;
+        case error:
+            ofile << "[ ERROR]" << data.msg << endl;
+            break;
+    }
+}
+
+void Logger_file::flush()
+{
+    ofile.flush();
+}
+
 logger::logger(string log_file_path)
 {
     remove(log_file_path.c_str());      //removes old log file
-    log_file.open(log_file_path, ios::out);
+    output_streams.push_back(new Logger_file(log_file_path));
+}
+
+logger::logger()
+{
+
 }
 
 logger::~logger()
 {
-    log_file.close();
+
 }
 
-logger::log_opt::log_opt()
+log_opt::log_opt()
 {
 
 }
 
-logger::log_opt::log_opt(bool _err_quit, bool _console, bool _file)
+log_opt::log_opt(bool _err_quit, bool _console, bool _file)
 {
     console = _console, file = _file, err_quit = _err_quit;
 }
 
-logger::log_data::log_data(log_opt _opt, string _msg, log_type _type)
+log_data::log_data(log_opt _opt, string _msg, log_type _type)
 {
     opt = _opt, msg = _msg, type = _type;
 }
 
 void logger::log_message(string msg, log_opt opt)
 {
-    if(opt.console)
-    {
-        cout << msg << endl;
-    }
-    if(opt.file)
-    {
-        log_file << "       : " <<msg << endl;
-    }
+    for(auto& i : output_streams)
+        *i << log_data(opt, msg, normal);
 
-    log.push_back(log_data(opt, msg, normal));      //log messages are always added to the log so they can be displayed
-                                                    //in the in game console and used by other parts of the engine
     if(opt.err_quit)
     {
+        for(auto& i : output_streams)
+        i->flush();
         exit(-1);
-        log_file.flush();
     }
 }
 
 void logger::log_warning(string msg, log_opt opt)
 {
-    if(opt.console)
-    {
-        cout << msg << endl;
-    }
-    if(opt.file)
-    {
-        log_file << "warning: " << msg << endl;
-    }
+    for(auto& i : output_streams)
+        *i << log_data(opt, msg, warning);
 
-    log.push_back(log_data(opt, msg, warning));      //log messages are always added to the log so they can be displayed
-                                                     //in the in game console and used by other parts of the engine
     if(opt.err_quit)
     {
+        for(auto& i : output_streams)
+        i->flush();
         exit(-1);
-        log_file.flush();
     }
 }
 
 void   logger::log_error(string msg, log_opt opt)
 {
-    if(opt.console)
-    {
-        cerr << msg << endl;
-    }
-    if(opt.file)
-    {
-        log_file << "error  : " << msg << endl;
-    }
+    for(auto& i : output_streams)
+        *i << log_data(opt, msg, error);
 
-    log.push_back(log_data(opt, msg, error));      //log messages are always added to the log so they can be displayed
-                                                    //in the in game console and used by other parts of the engine
     if(opt.err_quit)
     {
+        for(auto& i : output_streams)
+        i->flush();
         exit(-1);
-        log_file.flush();
     }
 }
 

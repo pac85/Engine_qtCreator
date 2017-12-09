@@ -24,6 +24,35 @@
 
 #include "common.h"
 
+
+struct log_opt
+{
+    bool console;  //if true the message will be printed in the console
+    bool file;     //if true the message will be printed in the log file
+
+    bool err_quit; //if true the application will quit when a fatal error occurs
+
+    log_opt();
+    log_opt(bool _err_quit, bool _console = true, bool _file = true);
+};
+
+enum log_type
+{
+    normal,
+    warning,
+    error
+};
+
+struct log_data
+{
+    log_opt opt;
+    string msg;
+    log_type type;
+
+    log_data();
+    log_data(log_opt, string, log_type);
+};
+
 struct msg
 {
     msg(string in)
@@ -51,41 +80,38 @@ struct err
     string data;
 };
 
+class LoggerOStream
+{
+    public:
+        virtual void operator << (const log_data&) = 0;
+        virtual void flush() = 0;
+};
+
+class Logger_stdout : public LoggerOStream
+{
+    public:
+        Logger_stdout() {}
+        void operator << (const log_data&);
+        void flush();
+};
+
+class Logger_file : public LoggerOStream
+{
+    private:
+        ofstream ofile;
+    public:
+        Logger_file(string filename)  : ofile(filename){}
+
+        void operator << (const log_data&);
+        void flush();
+};
+
 class logger
 {
     public:
 
-        struct log_opt
-        {
-            bool console;  //if true the message will be printed in the console
-            bool file;     //if true the message will be printed in the log file
-
-            bool err_quit; //if true the application will quit when a fatal error occurs
-
-            log_opt();
-            log_opt(bool _err_quit, bool _console = true, bool _file = true);
-        };
-
-        enum log_type
-        {
-            normal,
-            warning,
-            error
-        };
-
-        struct log_data
-        {
-            log_opt opt;
-            string msg;
-            log_type type;
-
-            log_data();
-            log_data(log_opt, string, log_type);
-        };
-
-        vector<log_data> log;       //just a vector containing all the log strings
-
         logger(string log_file_path);
+        logger();
         virtual ~logger();
 
         void log_message(string msg, log_opt opt);  //Logs the argument as a normal state message
@@ -101,7 +127,8 @@ class logger
 
     private:
 
-        ofstream log_file;
+        vector<LoggerOStream*> output_streams = {new Logger_stdout()};
+        vector<log_data> log;       //just a vector containing all the log strings
 };
 
 #endif // LOGGER_H

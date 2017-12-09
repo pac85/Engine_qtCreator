@@ -24,7 +24,7 @@
 engineIn::engineIn(GLFWwindow* window)
 {
     InWindow = window;
-    glfwSetKeyCallback(InWindow, (GLFWkeyfun)&internal_key_callback);   //internal_key_callback will be called when a key will be pressed
+    glfwSetKeyCallback(InWindow, (GLFWkeyfun)&internal_key_callback);   //internal_key_callback will be called when a key is pressed
 }
 
 engineIn::~engineIn()
@@ -56,8 +56,8 @@ void engineIn::add_control(string control_name, void (*call_back)(float,float))
     control_map[control_name] = call_back;
 }
 
-void engineIn::internal_key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
+void engineIn::internal_key_callback(engineIn* caller_obj, GLFWwindow *window, int key, int scancode, int action, int mods)
 {
-    string action_name = key_action_map[key];    //finds the corresponding action name
-    (*action_map[action_name])();                //and uses it to call the corresponding function
+    string action_name = caller_obj->key_action_map[key];    //finds the corresponding action name
+    (*caller_obj->action_map[action_name])();                //and uses it to call the corresponding function
 }

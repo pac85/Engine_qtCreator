@@ -30,12 +30,12 @@ class Loop
     struct loop_task
     {
         Ptr<ITask> _task;
-        operator > (loop_task b)
+        bool operator > (loop_task b)
         {
             return _task->priority > b._task->priority;
         }
 
-        operator < (loop_task b)
+        bool operator < (loop_task b)
         {
             return _task->priority < b._task->priority;
         }

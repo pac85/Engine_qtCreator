@@ -1,4 +1,4 @@
-/**************************************************************************/
+/**************************************************************************
 
   Copyright (C) 2017 Antonino Maniscalco (alias pac85)
                                                                        
@@ -18,7 +18,8 @@
   along with Engine.  If not, see http://www.gnu.org/licenses/          
                                                                   
                                                                       
-/**************************************************************************/#ifndef VKSHADERSTAGE_H
+**************************************************************************/
+#ifndef VKSHADERSTAGE_H
 #define VKSHADERSTAGE_H
 
 #include"vkShaderModule.h"
