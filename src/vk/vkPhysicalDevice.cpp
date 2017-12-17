@@ -20,8 +20,9 @@
 */
 /**************************************************************************/
 #include "vkPhysicalDevice.h"
-
 #include "vkSurfaceInfo.h"
+
+#include "../logger.h"
 
 vkPhysicalDevice::vkPhysicalDevice(vkInstance &instance, vkSurface &surface, vector<const char*> * requiered_device_extensions)
 {
@@ -30,7 +31,7 @@ vkPhysicalDevice::vkPhysicalDevice(vkInstance &instance, vkSurface &surface, vec
 
     if(deviceCount == 0)
     {
-        cerr<<"no device with vulkan support found"<<endl;
+        slog << err("no device with vulkan support found");
         return;
     }
 
@@ -41,14 +42,14 @@ vkPhysicalDevice::vkPhysicalDevice(vkInstance &instance, vkSurface &surface, vec
 
     if(!select_device(devices, physical_device, &queue_families, surface, requiered_device_extensions))
     {
-        cerr<<"no suitable device found"<<endl;
+        slog << err("no suitable device found");
         return;
     }
 
     VkPhysicalDeviceProperties deviceProperties;
     vkGetPhysicalDeviceProperties(physical_device, &deviceProperties);
 
-    cout << "chosen device:" << deviceProperties.deviceName << endl;
+    slog << msg(string("chosen device:") + deviceProperties.deviceName);
 }
 
 vkPhysicalDevice::~vkPhysicalDevice()

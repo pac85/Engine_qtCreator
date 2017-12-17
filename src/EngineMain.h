@@ -28,14 +28,18 @@
 class EngineMain
 {
     public:
-        EngineMain();
+        EngineMain(string);
         virtual ~EngineMain();
 
-        logger slog;  //the standard log output
+        void init();
+        void loop();
+
 
     protected:
 
     private:
+        string appname;
+        GLFWwindow* window;
 };
 
 #endif // ENGINEMAIN_H

@@ -20,6 +20,7 @@
 */
 /**************************************************************************/
 #include "settings.h"
+#include "logger.h"
 
 map<string, string> settings::s_defs::def_value;
 
@@ -63,7 +64,7 @@ void settings::load_settings(string file_name)
 
     if(!settings_file.is_open())
     {
-        cerr << "unable to find file " << file_name << endl;
+        slog << err("unable to find file " + file_name);
 
         return;
     }
@@ -107,14 +108,7 @@ void settings::load_settings(string file_name)
             //converts the string value "true" or "false" to an actual boolean value
             string str_bool;
             line_stream >> str_bool;
-            if(!str_bool.compare("true"))
-            {
-                temp_setting.s_value.b = true;
-            }
-            else if(!str_bool.compare("false"))
-            {
-                temp_setting.s_value.b = false;
-            }
+            temp_setting.s_value.b = !str_bool.compare("true");
         }
         else if(!l_type.compare("string"))
         {
@@ -124,7 +118,7 @@ void settings::load_settings(string file_name)
         }
         else
         {
-            cerr << "error while loading settings file " << file_name << ", unknown type " << l_type << endl;
+            slog << err("error while loading settings file " + file_name + ", unknown type " + l_type );
         }
 
         id_val_map[l_idef] = temp_setting;
@@ -163,7 +157,7 @@ void settings::parse_preprocessor_keyword(string in_line, string settings_file_n
     }
     catch(const out_of_range er)
     {
-        cerr << "1 " << er.what() << endl;
+        slog << err(er.what());
     }
 
     //finds the two quotation marks delimiting the file name
@@ -185,7 +179,7 @@ void settings::parse_preprocessor_keyword(string in_line, string settings_file_n
     }
     catch(const out_of_range er)
     {
-        cerr << "2 "<<er.what() << endl;
+        slog << err(er.what());
     }
 
     fstream header_file;
@@ -193,7 +187,7 @@ void settings::parse_preprocessor_keyword(string in_line, string settings_file_n
 
     if(!header_file.is_open())
     {
-        cerr << "unable to find file " << filename << endl;
+        slog << err("unable to find file " + filename);
         return;
     }
 
@@ -221,7 +215,7 @@ void settings::parse_keyword(string line)
             return;
 
         if(s_defs::is_def(idef))
-            cout << "redefinition of " << idef << endl;
+            slog << warn("redefinition of " + idef);
 
         s_defs::def_value[idef] = value;
     }

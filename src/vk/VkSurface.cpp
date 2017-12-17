@@ -21,12 +21,13 @@
 /**************************************************************************/
 #include "vkSurface.h"
 #include"../settings.h"
+#include "../logger.h"
 
 vkSurface:: vkSurface(GLFWwindow* window, vkInstance &instance) : surface{instance.instance, vkDestroySurfaceKHR}
 {
     if(glfwCreateWindowSurface(instance.instance, window, nullptr, surface.replace()) != VK_SUCCESS )
     {
-        cout << "could't create surface" << endl;
+        slog << err("could't create surface");
     }
 }
 

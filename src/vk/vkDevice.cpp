@@ -20,6 +20,7 @@
 */
 /**************************************************************************/
 #include "vkDevice.h"
+#include "../logger.h"
 
 vkDevice::vkDevice(vkInstance &instance, vkPhysicalDevice &_physical_device, vector<const char*> * device_extensions)
 {
@@ -69,7 +70,7 @@ vkDevice::vkDevice(vkInstance &instance, vkPhysicalDevice &_physical_device, vec
 
     if (vkCreateDevice(physical_device->physical_device, &create_info, nullptr, device.replace()) != VK_SUCCESS)
     {
-        cout << "failed to create logical device!" << endl;
+        slog << err("failed to create logical device!");
     }
 
     //Gets the queue's handle

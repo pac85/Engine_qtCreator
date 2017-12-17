@@ -20,6 +20,7 @@
 */
 /**************************************************************************/
 #include "vkInstance.h"
+#include "../logger.h"
 
 vkInstance::vkInstance(VkApplicationInfo app_info, bool _use_validation_layers, const std::vector<const char*> * _validationLayers)
 {
@@ -38,7 +39,7 @@ vkInstance::vkInstance(VkApplicationInfo app_info, bool _use_validation_layers, 
         //sets up validation layers
         if(!check_validation_layer_support())
         {
-            cerr<<"unavailable validation layers"<<endl;
+            slog << err("unavailable validation layers");
         }
         createInfo.enabledLayerCount = validationLayers->size();
         createInfo.ppEnabledLayerNames = validationLayers->data();
@@ -50,7 +51,7 @@ vkInstance::vkInstance(VkApplicationInfo app_info, bool _use_validation_layers, 
 
     if(vkCreateInstance(&createInfo, nullptr, instance.replace()) != VK_SUCCESS)
     {
-        cerr<<"unable to initialize vulkan"<<endl;
+        slog << err("unable to initialize vulkan");
     }
 
     if(bUsing_validation_layers)
@@ -65,7 +66,7 @@ vkInstance::vkInstance(VkApplicationInfo app_info, bool _use_validation_layers, 
 
         if (Callback_result != VK_SUCCESS)
         {
-            cerr<<"unable to set up debug callback "<< Callback_result <<endl;
+            slog << err("unable to set up debug callback " + Callback_result);
         }
     }
 }
@@ -149,7 +150,7 @@ VKAPI_ATTR VkBool32 VKAPI_CALL vkInstance::debugCallback
     void* userData
 )
 {
-    std::cerr << "validation layer: " << msg << std::endl;
+    slog << warn(string("validation layer: ") + msg);
 
     return VK_FALSE;
 }

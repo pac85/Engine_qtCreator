@@ -57,6 +57,8 @@ class settings
             /**temp*/
             template<typename T> T inline get_val()   //this is not type safe, but i couldn't find a better way
             {
+                if(std::is_same<T, bool>::value)
+                    return s_value.b;
                 return (T)s_value.i;                //just uses the biggest (32 bit) type so no data is lost
             }
         };

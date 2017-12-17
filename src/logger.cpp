@@ -167,6 +167,11 @@ void logger::operator << (msg in)
     log_message(in.data, log_opt(false, true));
 }
 
+void logger::operator << (string in)
+{
+    operator << (msg(in));
+}
+
 void logger::operator << (warn in)
 {
     log_warning(in.data, log_opt(false, true));
@@ -177,6 +182,9 @@ void logger::operator << (err in)
     log_error(in.data, log_opt(true, true));
 }
 
+
+
+logger slog("logs/log.txt");
 /*string logger::operator << (string in)
 {
 

@@ -20,6 +20,7 @@
 */
 /**************************************************************************/
 #include "vkMain.h"
+#include "../logger.h"
 
 vkMain::vkMain( VkApplicationInfo app_info,
                 GLFWwindow * window,
@@ -31,20 +32,20 @@ vkMain::vkMain( VkApplicationInfo app_info,
 
     const std::vector<const char*> validationLayers = {"VK_LAYER_LUNARG_standard_validation"};
 
-    cout << "creating instance" << endl;
+    slog << msg("creating instance");
     instance  = new vkInstance(app_info, true, &validationLayers);
 
-    cout << "creating surface" << endl;
+    slog << msg("creating surface");
     surface = new vkSurface(window, *instance);
 
-    cout << "creating physical device" << endl;
+    slog << msg("creating physical device");
     physical_device = new vkPhysicalDevice(*instance, *surface, &device_extensions);
 
-    cout << "creating logical device" << endl;
+    slog << msg("creating logical device");
     device = new vkDevice(*instance, *physical_device, &device_extensions);
 
 
-    cout << "creating swapchain" << endl;
+    slog << msg("creating swapchain");
 
     vkSwapChainDesiredProperties dprops(surface_format, present_mode, extent);
 

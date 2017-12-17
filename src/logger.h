@@ -119,6 +119,7 @@ class logger
         void   log_error(string msg, log_opt opt);  //Logs the argument as a fatal state message
 
         void operator << (msg in);
+        void operator << (string in);
         void operator << (warn in);
         void operator << (err in);
         //string operator << (string in);
@@ -130,5 +131,8 @@ class logger
         vector<LoggerOStream*> output_streams = {new Logger_stdout()};
         vector<log_data> log;       //just a vector containing all the log strings
 };
+
+//standard log output
+extern logger slog;
 
 #endif // LOGGER_H
