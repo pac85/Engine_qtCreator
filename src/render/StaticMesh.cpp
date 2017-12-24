@@ -20,6 +20,7 @@
 */
 /**************************************************************************/
 #include "StaticMesh.h"
+#include "../logger.h"
 
 using namespace Assimp;
 
@@ -61,7 +62,7 @@ void StaticMesh::load_model(aiMesh mesh)
 {
     if(mesh.mNormals == nullptr)
     {
-        cout << "mesh with no normals" << endl;
+        slog << warn("mesh with no normals");
         return;
     }
 

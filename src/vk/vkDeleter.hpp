@@ -62,6 +62,11 @@ class VDeleter
             return &object;
         }
 
+        const T* get_raw_ptr() const
+        {
+            return &object;
+        }
+
         T* replace()
         {
             cleanup();

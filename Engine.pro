@@ -57,7 +57,8 @@ HEADERS += \
     src/Ptr.h \
     src/settings.h \
     src/Singleton.h \
-    src/Task.h
+    src/Task.h \
+    src/render/Texture.h
 
 SOURCES += \
     src/ActorSYS/Actor.cpp \
@@ -101,4 +102,5 @@ SOURCES += \
     src/Profiler.cpp \
     src/Ptr.cpp \
     src/settings.cpp \
-    src/common.cpp
+    src/common.cpp \
+    src/render/Texture.cpp

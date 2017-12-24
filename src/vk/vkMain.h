@@ -81,6 +81,7 @@ class vkMain
         vkPhysicalDevice * physical_device;
         vkDevice * device;
         vkSwapChain * swap_chain;
+        VkCommandPool transfer_pool;
 };
 
 #endif // VKMAIN_H

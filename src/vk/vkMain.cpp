@@ -22,6 +22,8 @@
 #include "vkMain.h"
 #include "../logger.h"
 
+#include "../render/StaticMesh.h"
+
 vkMain::vkMain( VkApplicationInfo app_info,
                 GLFWwindow * window,
                 vector<const char*> device_extensions,
@@ -52,6 +54,10 @@ vkMain::vkMain( VkApplicationInfo app_info,
     vkSurfaceInfo surface_info(physical_device->physical_device, *surface);
 
     swap_chain = new vkSwapChain(*physical_device, *device, *surface, surface_info, dprops, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT);
+
+    //w
+    /*StaticMesh::device = device->device.get_raw_ptr();
+    StaticMesh::command_pool = transfer_pool.get_raw_ptr();*/
 }
 
 
