@@ -100,7 +100,7 @@ class world
 
         Transform offset;
 
-        WorldActorIndex parent_index,       //An index to the pointer to with the BaseActor is attached
+        WorldActorIndex parent_index,       //An index to the pointer to whitch the BaseActor is attached
                         attached_index;     //An index to the attached object
 
         string target_socket;
@@ -123,7 +123,7 @@ class world
         world();
         virtual ~world();
 
-        void add_actor(BaseActor * actor_to_add);       //adds an BaseActor to the world
+        void add_actor(BaseActor * actor_to_add);       //adds a BaseActor to the world
         void remove_actor(BaseActor* actor_to_remove);  //removes BaseActor from world
 
 
@@ -138,7 +138,7 @@ class world
         void aa_attach(attachment _attachment);     //adds an BaseActor-BaseActor attachment
         void aa_deteach(attachment _attachment);    //removes the attachment
 
-        void load_level(string file_name);          //Loads a level from an xwl file
+        void load_level(istream input_stream);      //Loads a level from an xwl file
 
         void UpdateWorld(float delta);              //Does all the update stuff
 

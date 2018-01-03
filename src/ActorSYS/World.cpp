@@ -20,6 +20,8 @@
 */
 /**************************************************************************/
 #include "World.h"
+#include "internal_actors.h"
+#include "../game/GameMain.h"
 #include <stack>
 
 world::world()
@@ -105,6 +107,7 @@ void world::aa_attach(attachment _attachment)
         vector<WorldActor> & attached_list = get_list(attached_index);  //the vector attached BaseActor belongs to
         attached_actor_list.insert(attached_actor_list.begin()+parent_index.index+1, attached_list[attached_index.index]);
         actor_index_map[attached_actor_list[parent_index.index+1].actor_pointer] = WorldActorIndex(parent_index.index+1, WorldActorIndex::ATTACHED);
+
         _attachment.attached_index = WorldActorIndex(parent_index.index, WorldActorIndex::ATTACHED);
         attached_list.erase(attached_list.begin()+attached_index.index);
     }
@@ -113,6 +116,7 @@ void world::aa_attach(attachment _attachment)
         vector<WorldActor> & parent_list = get_list(parent_index);  //the vector the attached BaseActor belongs to
         attached_actor_list.insert(attached_actor_list.begin()+attached_index.index, parent_list[parent_index.index]);
         actor_index_map[attached_actor_list[attached_index.index].actor_pointer] = WorldActorIndex(attached_index.index, WorldActorIndex::ATTACHED);
+
         _attachment.parent_index = WorldActorIndex(attached_index.index, WorldActorIndex::ATTACHED);
         parent_list.erase(parent_list.begin()+parent_index.index);
     }
@@ -202,7 +206,7 @@ void world::aa_deteach(attachment _attachment)
     }
 }
 
-void world::load_level(string file_name)
+void world::load_level(istream input_stream)
 {
 
 }

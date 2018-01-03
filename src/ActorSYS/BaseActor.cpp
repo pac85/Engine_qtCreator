@@ -33,7 +33,6 @@ BaseActor::~BaseActor()
 
 string BaseActor::get_instance_name()
 {
-    return string("test");
     return instance_name;
 }
 
@@ -62,7 +61,7 @@ BaseActor::Transform BaseActor::get_absolute_socket_transform(string S_name)
     return socket_offset[S_name] + ATransform;
 }*/
 
-BaseActor* BaseActorFBaseActory::createInstance(string const& s, string instance_name)
+BaseActor* BaseActorFactory::createInstance(string const& s, string instance_name)
 {
     BaseActor_map_type::iterator it = getMap()->find(s);
 
@@ -75,10 +74,10 @@ BaseActor* BaseActorFBaseActory::createInstance(string const& s, string instance
     return instancePtr;                            //returns the corresponding BaseActor derived class
 }
 
-BaseActorFBaseActory::BaseActor_map_type * BaseActorFBaseActory::BaseActor_name_map = NULL;
+BaseActorFactory::BaseActor_map_type * BaseActorFactory::BaseActor_name_map = NULL;
 
 
-BaseActorFBaseActory::BaseActor_map_type * BaseActorFBaseActory::getMap()
+BaseActorFactory::BaseActor_map_type * BaseActorFactory::getMap()
 {
     if(!BaseActor_name_map)                         //if map is not created yet
     {

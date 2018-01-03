@@ -79,27 +79,28 @@ template<typename T> BaseActor * createT()
     return new T;
 }
 
-struct BaseActorFBaseActory
+struct BaseActorFactory
 {
     typedef map<std::string, BaseActor*(*)()> BaseActor_map_type;
 
     public:
-        static BaseActor* createInstance(string const& s,    //Creates an instance of the Actor the witch name is s
-                                      string instance_name);
-                                                        //returns 0 if there is no Actor named s.
+        //Creates an instance of the Actor the witch name is s, returns 0 if there is no Actor named s.
+        static BaseActor* createInstance(string const& s, string instance_name);
+
 
     protected:
-
-        static BaseActor_map_type * getMap();               //returns the map witch associates names with Actors
+        //returns the map witch associates names with Actors
+        static BaseActor_map_type * getMap();
 
     private:
-        static BaseActor_map_type * BaseActor_name_map;         //the map witch associates names with Actors
+        //the map witch associates names with Actors
+        static BaseActor_map_type * BaseActor_name_map;
 };
 
 template<typename T>
-struct BaseActorRegister : BaseActorFBaseActory                     //Every Actor derived class must have a static member of
-{                                                       //this type and the constructor's argument is the name
-    BaseActorRegister(string const& s)                      //that will be used  when the class is referenced by string.
+struct BaseActorRegister : BaseActorFactory                         //Every Actor derived class must have a static member of
+{                                                                   //this type and the constructor's argument is the name
+    BaseActorRegister(string const& s)                              //that will be used  when the class is referenced by string.
     {
         getMap()->insert(make_pair(s, &createT<T>));
     }
