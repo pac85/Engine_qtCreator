@@ -1,3 +1,4 @@
+ 
 /**************************************************************************/
 /*
   Copyright (C) 2017 Antonino Maniscalco (alias pac85)
@@ -23,161 +24,81 @@
 #define WORLD_H
 #include"../common.h"
 #include"BaseActor.h"
-#include"../render/Camera.h"
-/*#include"PointLight.h"
-#include"SpotLight.h"
-#include"DirectionalLight.h"*/
+#include"ActorIndexers.hpp"
 
-
-class world
+class World
 {
-    /*struct ComponentAttachment
+public:
+    World();
+    virtual ~World();
+	
+    void add_actor(BaseActor * actor_to_add);                                   //adds a BaseActor to the world
+    void remove_actor( WorldActorIndex &index, bool destroy_attached = true);   //removes BaseActor from world
+	
+    void aa_attach(WorldActorIndex &parent, WorldActorIndex &child);          //adds an BaseActor-BaseActor attachment
+    void aa_deteach(WorldActorIndex &child);         //removes the attachment
+
+	void load_level(istream input_stream);      //Loads a level from an xwl file
+
+    void UpdateWorld(float delta_time);              //Does all the update stuff
+
+    inline WorldActorIndex * get_index(BaseActor* ptr)
     {
-        enum Attach_type
-        {
-            relative,               //Uses the attachment offset has an offset to the position of the BaseActor to witch it is attached
-            absolute                //Uses the attachment offset has an absolute position
-        } attach_type;
+        return ptr_to_index[ptr];
+    }
 
-        Transform offset;
+protected:
+private:
+	unordered_map<WorldActorIndex, WorldActorPtr> active_actors, inactive_actors;
+    unordered_map<WorldActorIndex, pair<WorldActorPtr, unordered_set<WorldActorIndex*>>> hierarchy;
+    unordered_map<BaseActor*, WorldActorIndex*> ptr_to_index;
 
-        Component * attached_ptr;
+    void recursive_update(double delta_time, WorldActorIndex root = WorldActorIndex(0));
 
-        string target_socket;
-    };*/
-
-    struct WorldActor
+    inline void add_map_element(WorldActorIndex &index, WorldActorPtr &ptr, unordered_map<WorldActorIndex, WorldActorPtr> * to_add_map)
     {
-        BaseActor * actor_pointer;                          //The BaseActor pointer
-        /*bool bAllowTick;                                //If false tick() will not be called even if bTick is true(set by the engine)
-        bool skip_tick;                                 //If true tick won't be called but will be set to false again so the next frame it will*/
+        to_add_map->insert(make_pair(index, &ptr));
+        ptr_to_index.insert(make_pair(&ptr, &index));
+    }
 
-        inline WorldActor(BaseActor * _actor_pointer)
-        {
-            actor_pointer = _actor_pointer;
-        }
-    };
-
-    struct WorldActorIndex
+    inline void remove_map_element(WorldActorIndex &index, unordered_map<WorldActorIndex, WorldActorPtr> * to_remove_map)
     {
-        unsigned int index;
+        unordered_map<WorldActorIndex, WorldActorPtr> &defrenced_map = *to_remove_map;
+        ptr_to_index.erase(&defrenced_map[index]);
+        defrenced_map.erase(index);
+    }
 
-        enum state
-        {
-            ACTIVE,
-            INACTIVE,
-            ATTACHED
-        }actor_state;
-
-        WorldActorIndex()
-        {
-
-        }
-
-        WorldActorIndex(unsigned int _index, state _state)
-        {
-            index = _index, actor_state = _state;
-        }
-
-        inline bool operator== (WorldActorIndex &b)
-        {
-            return b.index == index;
-        }
-
-        inline bool operator!= (WorldActorIndex &b)
-        {
-            return b.index != index;
-        }
-    };
-
-    struct attachment
+    inline void remove_map_element(WorldActorIndex &index, unordered_map<WorldActorIndex, pair<WorldActorPtr, unordered_set<WorldActorIndex*>>> * to_remove_map)
     {
-        enum e_attach_type
+        auto &defrenced_map = *to_remove_map;
+        ptr_to_index.erase(&defrenced_map[index].first);
+        defrenced_map.erase(index);
+    }
+
+
+    inline WorldActorPtr get_actor(const WorldActorIndex &index)
+    {
+        switch(index.get_state())
         {
-            RELATIVE,               //Uses the attachment offset has an offset to the position of the BaseActor to witch it is attached
-            ABSOLUTE                //Uses the attachment offset has an absolute position
-        }attach_type;
-
-        Transform offset;
-
-        WorldActorIndex parent_index,       //An index to the pointer to whitch the BaseActor is attached
-                        attached_index;     //An index to the attached object
-
-        string target_socket;
-
-        bool updated;
-        bool skip_update;           //if true an update will be skipped, it will the be set back to false
-
-        inline attachment(WorldActorIndex _parent_index, WorldActorIndex _attached_index)
-        {
-            parent_index = _parent_index, attached_index = _attached_index;
+        case ACTIVE:
+            return active_actors[index];
+            break;
+        case INACTIVE:
+            return inactive_actors[index];
+            break;
+        case ATTACHED:
+            return hierarchy[index].first;
+            break;
         }
+    }
 
-        inline bool operator == (attachment &b)
+    inline void recursive_delete(WorldActorIndex &index)
+    {
+        for(auto &element : hierarchy[index].second)
         {
-            return b.parent_index == parent_index && b.attached_index == attached_index;
+            recursive_delete(*element);
         }
-    };
-
-    public:
-        world();
-        virtual ~world();
-
-        void add_actor(BaseActor * actor_to_add);       //adds a BaseActor to the world
-        void remove_actor(BaseActor* actor_to_remove);  //removes BaseActor from world
-
-
-        inline attachment create_attachment(BaseActor* _parent_actor, BaseActor* _attached_actor)
-        {
-            if(actor_index_map.find(_parent_actor) == actor_index_map.end() || actor_index_map.find(_attached_actor) == actor_index_map.end())
-                throw runtime_error("one of the actors was not found");
-
-            return attachment(actor_index_map[_parent_actor], actor_index_map[_attached_actor]);
-        }
-
-        void aa_attach(attachment _attachment);     //adds an BaseActor-BaseActor attachment
-        void aa_deteach(attachment _attachment);    //removes the attachment
-
-        void load_level(istream input_stream);      //Loads a level from an xwl file
-
-        void UpdateWorld(float delta);              //Does all the update stuff
-
-
-    protected:
-
-    private:
-
-        inline vector<WorldActor>& get_list(WorldActorIndex wai)
-        {
-            switch(wai.actor_state)
-            {
-                case WorldActorIndex::ACTIVE:
-                    return active_actor_list;
-                    break;
-                case WorldActorIndex::INACTIVE:
-                    return inactive_actor_list;
-                    break;
-                case WorldActorIndex::ATTACHED:
-                    return attached_actor_list;
-                    break;
-            }
-        }
-
-        //Lists of BaseActor, lights get special lists because the world class has to render their shadow maps
-        vector<WorldActor> attached_actor_list;
-        vector<attachment> attachment_list;
-        //vector<attachment> attachments;
-        vector<WorldActor> active_actor_list;
-        vector<WorldActor> inactive_actor_list;
-        map<BaseActor*, WorldActorIndex> actor_index_map;
-
-
-
-        void tickAll(float delta_time);                          //Calls tick for every object
-
-        void update_attachments(float delta_time);               //Updates all attachments in the correct order
-
-        //void update_attachment(float delta_time, int index);     //Updates one attachment
+        remove_map_element(index, &hierarchy);
+    }
 };
-
 #endif // WORLD_H

@@ -1,23 +1,25 @@
 TEMPLATE = app
-CONFIG += console c++11
+CONFIG += console c++14
 CONFIG -= app_bundle
 CONFIG -= qt
 QMAKE_LFLAGS += `pkg-config --static --libs glfw3` -lvulkan
 
 DISTFILES += \
     src/licenser.sh \
-    src/toadd.txt
+    src/toadd.txt \
+    src/ActorSYS/oldWorld/World2.cpp \
+    src/ActorSYS/oldWorld/World2.h  \
+    src/ActorSYS/oldWorld/World.cpp \
+    src/ActorSYS/oldWorld/World.h
 
 HEADERS += \
     include/logger.h \
     include/vkGraphicsQueue.h \
-    src/ActorSYS/oldWorld/World.h \
     src/ActorSYS/Actor.h \
     src/ActorSYS/BaseActor.h \
     src/ActorSYS/Component.h \
     src/ActorSYS/DummyActor.h \
     src/ActorSYS/Transform.h \
-    src/ActorSYS/World.h \
     src/game/GameMain.h \
     src/InputSYS/engineIn.h \
     src/render/Camera.h \
@@ -61,7 +63,9 @@ HEADERS += \
     src/render/Texture.h \
     src/ActorSYS/internal_actors.h \
     src/game/actors.h \
-    src/EFile.h
+    src/EFile.h \
+    src/ActorSYS/World.h \
+    src/ActorSYS/ActorIndexers.hpp
 
 SOURCES += \
     src/ActorSYS/Actor.cpp \
@@ -69,7 +73,6 @@ SOURCES += \
     src/ActorSYS/Component.cpp \
     src/ActorSYS/DummyActor.cpp \
     src/ActorSYS/Transform.cpp \
-    src/ActorSYS/World.cpp \
     src/game/GameMain.cpp \
     src/InputSYS/engineIn.cpp \
     src/render/Camera.cpp \
@@ -107,4 +110,5 @@ SOURCES += \
     src/settings.cpp \
     src/common.cpp \
     src/render/Texture.cpp \
-    src/EFile.cpp
+    src/EFile.cpp \
+    src/ActorSYS/World.cpp

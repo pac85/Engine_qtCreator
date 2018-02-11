@@ -30,6 +30,8 @@ using namespace glm;
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
 
+class WorldActorIndex;
+
 #define REGISTER_DEC_TYPE(NAME) \
     static BaseActorRegister<NAME> reg
 
@@ -49,6 +51,14 @@ class BaseActor
         Transform get_transform();
         void set_transform(Transform _transform);
 
+        WorldActorIndex * get_world_index();
+        void set_world_index(WorldActorIndex * world_index);
+
+        inline bool is_active()
+        {
+            return bTick;
+        }
+
         /*//socket management
         void add_socket(Transform, string);      //adds a socket to the actor
         //returns the absolute transform of the socket
@@ -64,8 +74,9 @@ class BaseActor
         Transform ATransform;
 
     private:
-        //map<string, Transform>socket_offset;     //An array of sockets' relative transforms
+        //map<string, Transform>socket_offset;      //An array of sockets' relative transforms
         string instance_name;
+        WorldActorIndex * world_index;              //an index to find itself in the world
 };
 
 /*

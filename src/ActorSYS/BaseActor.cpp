@@ -51,6 +51,16 @@ void BaseActor::set_transform(Transform _transform)
     ATransform = _transform;
 }
 
+WorldActorIndex * BaseActor::get_world_index()
+{
+    return world_index;
+}
+
+void BaseActor::set_world_index(WorldActorIndex * world_index)
+{
+    this->world_index = world_index;
+}
+
 /*void BaseActor::add_socket(Transform S_transform, string S_name)
 {
     socket_offset[S_name] = S_transform;
