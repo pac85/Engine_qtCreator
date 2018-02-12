@@ -143,7 +143,8 @@ void World::aa_attach(WorldActorIndex &parent, WorldActorIndex &child)
     }
     else if(!parent_is_in_hierarchy && child_is_in_hierarchy)
     {
-
+        aa_deteach(child);
+        aa_attach(parent, child);
     }
     //otherwise they are both already present and there is nothing to do
 }
