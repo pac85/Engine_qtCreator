@@ -26,9 +26,7 @@
 
 #include "../common.h"
 #include "../vk/vkUtils.h"
-#include "../vk/vkDeleter.hpp"
-#include "../vk/vkDevice.h"
-#include "../vk/vkPhysicalDevice.h"
+#include "../vk/vkMain.h"
 #include <assimp/Importer.hpp>      // C++ importer interface
 #include <assimp/scene.h>           // Output data structure
 #include <assimp/postprocess.h>     // Post processing flags
@@ -44,8 +42,7 @@ class StaticMesh
         void load_model(const string &file, unsigned int ai_flags = 0aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType);*/
         void load_model(aiMesh mesh);
 
-        static VkCommandPool * command_pool;
-        static vkDevice * device;
+        static vkMain * vk_main;
 
         VDeleter<VkBuffer> vertex_buffer{device->device, vkDestroyBuffer};
         VDeleter<VkDeviceMemory> vertex_buffer_memory{device->device, vkFreeMemory};

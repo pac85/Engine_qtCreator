@@ -28,6 +28,7 @@
 #include "vkDevice.h"
 #include "vkSwapChain.h"
 #include "vkShaderModule.h"
+#include <vk_mem_alloc.h>
 
 #include "../common.h"
 
@@ -81,7 +82,7 @@ class vkMain
         vkPhysicalDevice * physical_device;
         vkDevice * device;
         vkSwapChain * swap_chain;
-        VkCommandPool transfer_pool;
+        VmaAllocator allocator;
 };
 
 #endif // VKMAIN_H

@@ -55,6 +55,12 @@ vkMain::vkMain( VkApplicationInfo app_info,
 
     swap_chain = new vkSwapChain(*physical_device, *device, *surface, surface_info, dprops, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT);
 
+    VmaAllocatorCreateInfo allocatorInfo = {};
+    allocatorInfo.physicalDevice = physical_device;
+    allocatorInfo.device = device;
+
+    vmaCreateAllocator(&allocatorInfo, &allocator);
+
     //w
     /*StaticMesh::device = device->device.get_raw_ptr();
     StaticMesh::command_pool = transfer_pool.get_raw_ptr();*/

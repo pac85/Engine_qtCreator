@@ -4,6 +4,8 @@ CONFIG -= app_bundle
 CONFIG -= qt
 QMAKE_LFLAGS += `pkg-config --static --libs glfw3` -lvulkan
 
+INCLUDEPATH += 3dparty/include/
+
 DISTFILES += \
     src/licenser.sh \
     src/toadd.txt \
@@ -64,7 +66,9 @@ HEADERS += \
     src/ResourceManager/ResourceManager.h \
     src/render/RenderSYS.h \
     src/IOWrapper.h \
-    src/Settings.h
+    src/Settings.h \
+    3dparty/include/vk_mem_alloc.h \
+    src/vk/vkBuffer.h
 
 SOURCES += \
     src/ActorSYS/Actor.cpp \
@@ -109,4 +113,5 @@ SOURCES += \
     src/ResourceManager/ResourceManager.cpp \
     src/render/RenderSYS.cpp \
     src/IOWrapper.cpp \
-    src/Settings.cpp
+    src/Settings.cpp \
+    src/vk/vkBuffer.cpp

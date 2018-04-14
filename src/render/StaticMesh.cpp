@@ -38,8 +38,7 @@ StaticMesh::~StaticMesh()
     //dtor
 }
 
-VkCommandPool * StaticMesh::command_pool = nullptr;
-vkDevice * StaticMesh::device = nullptr;
+vkMain * StaticMesh::vk_main = nullptr;
 
 
 /*void load_model(const string &file, unsigned int ai_flags = 0aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType)
