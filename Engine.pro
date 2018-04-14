@@ -26,8 +26,6 @@ HEADERS += \
     src/render/Material.h \
     src/render/ModelComponent.h \
     src/render/PointLightComponent.h \
-    src/render/render.h \
-    src/render/scene.h \
     src/render/StaticMesh.h \
     src/vk/vkDeleter.hpp \
     src/vk/vkDevice.h \
@@ -51,21 +49,22 @@ HEADERS += \
     src/vk/vkUtils.h \
     src/Base.h \
     src/common.h \
-    src/engine_settings.h \
     src/EngineMain.h \
     src/logger.h \
     src/Loop.h \
     src/Profiler.h \
     src/Ptr.h \
-    src/settings.h \
     src/Singleton.h \
     src/Task.h \
     src/render/Texture.h \
     src/ActorSYS/internal_actors.h \
     src/game/actors.h \
-    src/EFile.h \
     src/ActorSYS/World.h \
-    src/ActorSYS/ActorIndexers.hpp
+    src/ActorSYS/ActorIndexers.hpp \
+    src/ResourceManager/ResourceManager.h \
+    src/render/RenderSYS.h \
+    src/IOWrapper.h \
+    src/Settings.h
 
 SOURCES += \
     src/ActorSYS/Actor.cpp \
@@ -79,8 +78,6 @@ SOURCES += \
     src/render/Material.cpp \
     src/render/ModelComponent.cpp \
     src/render/PointLightComponent.cpp \
-    src/render/render.cpp \
-    src/render/scene.cpp \
     src/render/StaticMesh.cpp \
     src/vk/vkDevice.cpp \
     src/vk/vkGraphicsQueue.cpp \
@@ -100,15 +97,16 @@ SOURCES += \
     src/vk/vkUtils.cpp \
     src/Base.cpp \
     src/dummy.cpp \
-    src/engine_settings.cpp \
     src/EngineMain.cpp \
     src/logger.cpp \
     src/Loop.cpp \
     src/main.cpp \
     src/Profiler.cpp \
     src/Ptr.cpp \
-    src/settings.cpp \
     src/common.cpp \
     src/render/Texture.cpp \
-    src/EFile.cpp \
-    src/ActorSYS/World.cpp
+    src/ActorSYS/World.cpp \
+    src/ResourceManager/ResourceManager.cpp \
+    src/render/RenderSYS.cpp \
+    src/IOWrapper.cpp \
+    src/Settings.cpp

@@ -27,15 +27,8 @@
 #include "Ptr.h"
 #include "Base.h"
 #include "Function.h"
-#include "settings.h"
+#include "Settings.h"
 #include "logger.h"
-#include "engine_settings.h"
-#include "vk/vkInstance.h"
-#include "vk/vkSurface.h"
-#include "vk/vkPhysicalDevice.h"
-#include "vk/vkDevice.h"
-#include "vk/vkSwapChain.h"
-#include "vk/vkShaderModule.h"
 #include "render/StaticMesh.h"
 #include "vk/vkMain.h"
 #include "ActorSYS/World.h"
@@ -54,8 +47,7 @@ EngineMain::~EngineMain()
 void EngineMain::init()
 {
     slog << "initializing...";
-    engine_settings::load_settings("./cfg/basic_settings.cfg");
-    settings base_settings("./cfg/basic_settings.cfg");
+    Settings base_settings("./cfg/basic_settings.cfg");
 
     //initializes glfw
     glfwInit();
@@ -64,7 +56,7 @@ void EngineMain::init()
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
     //reads resolution from config file
-    settings::setting height, width, b_full_screen;
+    Settings::setting height, width, b_full_screen;
     base_settings.get_setting("height", height);
     base_settings.get_setting("width", width);
     base_settings.get_setting("full_screen", b_full_screen);
@@ -80,40 +72,6 @@ void EngineMain::init()
     appInfo.pEngineName = "No Engine";
     appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
     appInfo.apiVersion = VK_API_VERSION_1_0;
-
-    /*const std::vector<const char*> validationLayers = {"VK_LAYER_LUNARG_standard_validation"};
-
-    slog << "creating instance";
-    vkInstance instance(appInfo, true, &validationLayers);
-
-    slog << "creating surface";
-    vkSurface surface(window, instance);
-
-    slog << "creating physical device";
-    vector<const char*> device_extensions{VK_KHR_SWAPCHAIN_EXTENSION_NAME};
-    vkPhysicalDevice physicaldevice(instance, surface, &device_extensions);
-
-    slog << "creating logical device";
-    vkDevice device(instance, physicaldevice, &device_extensions);
-
-
-    slog << "creating swapchain";
-    VkSurfaceFormatKHR sf{VK_FORMAT_B8G8R8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR};
-    VkPresentModeKHR pm= VK_PRESENT_MODE_FIFO_KHR;
-    VkExtent2D extent = {width.get_val<int>(), height.get_val<int>()};
-
-    vkSwapChainDesiredProperties dprops(sf, pm, extent);
-
-    vkSurfaceInfo si(physicaldevice.physical_device, surface);
-
-    vkSwapChain swapchain(physicaldevice, device, surface, si, dprops, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT);
-
-    slog << "creating test shader module";
-    vkShaderModule testmodule(device, "shaders/frag.spv");*/
-
-    /*cout << "creating test staic mesh" << endl;
-    StaticMesh::device = &device;
-    StaticMesh test;*/
 
     vector<const char*> device_extensions{VK_KHR_SWAPCHAIN_EXTENSION_NAME};
     VkSurfaceFormatKHR sf{VK_FORMAT_B8G8R8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR};

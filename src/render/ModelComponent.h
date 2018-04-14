@@ -23,6 +23,7 @@
 #define MODELCOMPONENT_H
 
 #include"../ActorSYS/Component.h"
+#include"../ActorSYS/BaseActor.h"
 #include"StaticMesh.h"
 #include"Material.h"
 
@@ -42,10 +43,6 @@ class ModelComponent : Component
         BaseActor *parent;*/
         StaticMesh mesh;
         Material *material;
-
-        VkCullModeFlagBits cull_mode;
-        VkFrontFace  front_face;
-
 
     protected:
 

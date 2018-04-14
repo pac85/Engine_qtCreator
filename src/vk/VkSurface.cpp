@@ -20,7 +20,7 @@
 */
 /**************************************************************************/
 #include "vkSurface.h"
-#include"../settings.h"
+#include"../Settings.h"
 #include "../logger.h"
 
 vkSurface:: vkSurface(GLFWwindow* window, vkInstance &instance) : surface{instance.instance, vkDestroySurfaceKHR}

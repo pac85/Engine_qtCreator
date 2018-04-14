@@ -61,6 +61,19 @@ private:
 
     WorldActorIndex * parent = nullptr;
 
+    inline void set_parent(WorldActorIndex parent)
+    {
+        this->parent = &parent;
+    }
+
+    inline void set_state(actor_state state)
+    {
+        this->state = state;
+    }
+
+    friend class World;
+
+
 public:
 
     WorldActorIndex(const WorldActorIndex &b)
@@ -100,16 +113,6 @@ public:
     inline actor_state get_state() const
     {
         return state;
-    }
-
-    inline void set_state(actor_state state)
-    {
-        this->state = state;
-    }
-
-    inline void set_parent(WorldActorIndex parent)
-    {
-        this->parent = &parent;
     }
 
     inline WorldActorIndex get_parent() const

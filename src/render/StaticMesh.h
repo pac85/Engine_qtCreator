@@ -59,6 +59,9 @@ class StaticMesh
         VDeleter<VkBuffer> index_buffer{device->device, vkDestroyBuffer};
         VDeleter<VkDeviceMemory> index_buffer_memory{device->device, vkFreeMemory};
 
+        VkCullModeFlagBits cull_mode;
+        VkFrontFace  front_face;
+
         /*enum attributes_modes
         {
             NO_NORM_UV_0    = 0,

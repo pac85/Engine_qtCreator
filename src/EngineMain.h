@@ -25,6 +25,9 @@
 #include "common.h"
 #include "logger.h"
 
+#include "ActorSYS/World.h"
+#include "InputSYS/engineIn.h"
+
 class EngineMain
 {
     public:
@@ -40,6 +43,11 @@ class EngineMain
     private:
         string appname;
         GLFWwindow* window;
+
+        World world;
+        //engineIn input_system(window);
+
+
 };
 
 #endif // ENGINEMAIN_H
