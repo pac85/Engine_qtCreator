@@ -1,0 +1,6 @@
+GLFW
+vulkan
+glm
+assimp
+
+sudo pacman -S glfw [vulkan-radeon/nvidia] vulkan-headers vulkan-validation-layers glm assimp

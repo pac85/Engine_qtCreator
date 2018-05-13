@@ -6,9 +6,9 @@
 class RenderSYS
 {
 public:
-    RenderSYS();
+    RenderSYS(string appname, GLFWwindow* window, Settings settings);
 
-    //vkMain vulkan_main;
+    vkMain * vk_main;
 };
 
 #endif // RENDERSYS_H
